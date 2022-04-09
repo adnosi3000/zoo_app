@@ -7,7 +7,7 @@ root.geometry("650x345")
 root.configure(background='grey')
 
 welcome_text = Tk.Label(root, text="Welcome to ZooAdmin!")
-welcome_text.place(x=90, y=90)
+welcome_text.place(x=80, y=90)
 welcome_text.configure(fg='black')
 welcome_text.configure(font=("Courier", 32))
 welcome_text.configure(background='grey')
