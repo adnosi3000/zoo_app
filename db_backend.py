@@ -1,4 +1,5 @@
 import psycopg2
+from maingui import main_gui
 
 
 def connect(dbname, user, password, host, port):
@@ -10,19 +11,11 @@ def connect(dbname, user, password, host, port):
         return None
 
 
-
 def get_table_columns(conn, sql_table):
     '''gathers all column names from certain table'''
     cur = conn.cursor()
     cur.execute(f"select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='{sql_table}' ")
     return cur.fetchall()
-
-
-
-x = connect("postgres", "postgres", "admin", "localhost", "5432")    
-
-# print(get_table_columns(x, "test"))
-
 
 
 def run_command_from_file(conn, txtfile):
@@ -44,7 +37,31 @@ def run_command_from_file(conn, txtfile):
                 
     return outs
 
+def login(conn, login, password, table='users'):
+    sql = f"select * from public.{table}"
+    cur = conn.cursor()
+    cur.execute(sql)
+    data = cur.fetchall()
+    
+    credentials = (login, password)
+    for x in data:
+        if x == credentials:
+            return True
+    
+    return False
 
-print(run_command_from_file(x, "test.sql"))
+def createLoginTest(conn, username, password):
+    print("wywołuje funkcje createLoginTest")
+    out = login(conn, username, password)
+    print(out)
+    if out == True:
+        return main_gui()
+    else:
+        return lambda: None
+
+    
+
+
+
 
     
